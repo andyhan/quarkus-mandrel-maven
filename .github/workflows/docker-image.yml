@@ -16,12 +16,12 @@ jobs:
     - name: Check Out Repo 
       uses: actions/checkout@v3
       
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v2
+#     - name: Set up QEMU
+#       uses: docker/setup-qemu-action@v2
         
-    - name: Set up Docker Buildx
-      id: buildx
-      uses: docker/setup-buildx-action@v2
+#     - name: Set up Docker Buildx
+#       id: buildx
+#       uses: docker/setup-buildx-action@v2
       
     - name: Inspect builder
       run: |
@@ -44,7 +44,7 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        platforms: linux/amd64,linux/arm64
+        platforms: linux/amd64
         tags: ${{ github.repository }}:latest, ${{ github.repository }}:16
 
     - name: Image digest
