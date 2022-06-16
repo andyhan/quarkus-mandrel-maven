@@ -1,2 +1,3 @@
-# QuarkusBuilderImages
-Base Images consisted with Quarkus Mandrel (Java 11), NodeJS LTS + Maven 3.8
+# Quarkus Builder Image
+
+A builder tool image contains Mandrel 22.1, Maven 3.8.6 and NodeJS 16
