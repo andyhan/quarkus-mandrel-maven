@@ -1,0 +1,53 @@
+name: Publish Docker image
+
+on:
+  push:
+    branches:
+    - main
+    - release/*    
+  
+jobs:
+
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check Out Repo 
+      uses: actions/checkout@v3
+      
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+        
+    - name: Set up Docker Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@v2
+      
+    - name: Inspect builder
+      run: |
+        echo "Name:      ${{ steps.buildx.outputs.name }}"
+        echo "Endpoint:  ${{ steps.buildx.outputs.endpoint }}"
+        echo "Status:    ${{ steps.buildx.outputs.status }}"
+        echo "Flags:     ${{ steps.buildx.outputs.flags }}"
+        echo "Platforms: ${{ steps.buildx.outputs.platforms }}"
+            
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+        
+    - name: Build and push Docker image
+      id: docker_build
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        platforms: linux/amd64,linux/arm64
+        tags: ${{ github.repository }}:latest, ${{ github.repository }}:16
+
+    - name: Image digest
+      run: | 
+        echo "Image ID:      ${{ steps.docker_build.outputs.imageid }}"
+        echo "Image digest:  ${{ steps.docker_build.outputs.digest }}"          
