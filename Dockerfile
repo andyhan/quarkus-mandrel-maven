@@ -12,8 +12,7 @@ ENV GRAALVM_HOME=/opt/mandrel
 ENV JAVA_HOME=/opt/mandrel
 ENV PATH="${JAVA_HOME}/bin:${M2_HOME}/bin:${PATH}"
 
-# COPY --from=maven $JAVA_HOME $JAVA_HOME
 COPY --from=mandrel $JAVA_HOME $JAVA_HOME
 COPY --from=maven /usr/share/maven ${M2_HOME}
 
-ENTRYPOINT ["native-image"]
+ENTRYPOINT []
