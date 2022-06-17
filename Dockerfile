@@ -8,7 +8,8 @@ FROM ${MANDREL_IMAGE} AS mandrel
 FROM ${NODE_IMAGE}
 
 ENV M2_HOME=/opt/maven
-GRAALVM_HOME=/opt/mandrel JAVA_HOME=/opt/mandrel
+ENV GRAALVM_HOME=/opt/mandrel
+ENV JAVA_HOME=/opt/mandrel
 ENV PATH="${JAVA_HOME}/bin:${M2_HOME}/bin:${PATH}"
 
 # COPY --from=maven $JAVA_HOME $JAVA_HOME
