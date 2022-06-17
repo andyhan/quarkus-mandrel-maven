@@ -1,14 +1,19 @@
-FROM quay.io/quarkus/ubi-quarkus-mandrel:22.1-java11
+ARG MAVEN_IMAGE=maven:3-eclipse-temurin-11-alpine
+ARG MANDREL_IMAGE=quay.io/quarkus/ubi-quarkus-mandrel:22.1-java11
 
-ENV MAVEN_HOME=/opt/maven
+FROM ${MAVEN_IMAGE} AS maven
 
-COPY --from=maven:3-eclipse-temurin-11-alpine /usr/share/maven ${MAVEN_HOME}
+FROM ${MANDREL_IMAGE}
 
-ENV PATH="${PATH}:${MAVEN_HOME}/bin"
+ENV MAVEN_HOME=/opt/maven \
+    PATH="${PATH}:${MAVEN_HOME}/bin"
+    
+USER root
+
+COPY --from=maven /usr/share/maven ${MAVEN_HOME}
 
 # RUN ln -s /opt/maven/bin/mvn /usr/bin/mvn
 
 USER 1001
 
-# Clear ENTRYPOINT
-ENTRYPOINT ["mvn"]
+ENTRYPOINT []
