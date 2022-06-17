@@ -1,19 +1,15 @@
 ARG MAVEN_IMAGE=maven:3-eclipse-temurin-11-alpine
-ARG MANDREL_IMAGE=quay.io/quarkus/ubi-quarkus-mandrel:22.1-java11
+ARG NODE_IMAGE=andyhan/nodejs-builder:16
 
 FROM ${MAVEN_IMAGE} AS maven
 
-FROM ${MANDREL_IMAGE}
+FROM ${NODE_IMAGE}
 
-ENV MAVEN_HOME=/opt/maven \
-    PATH="${PATH}:${MAVEN_HOME}/bin"
-    
-USER root
+ENV M2_HOME=/opt/maven
+ENV JAVA_HOME=/opt/java/openjdk
+ENV PATH="${JAVA_HOME}/bin:${M2_HOME}/bin:${PATH}"
 
-COPY --from=maven /usr/share/maven ${MAVEN_HOME}
-
-# RUN ln -s /opt/maven/bin/mvn /usr/bin/mvn
-
-USER 1001
+COPY --from=maven $JAVA_HOME $JAVA_HOME
+COPY --from=maven /usr/share/maven ${M2_HOME}
 
 ENTRYPOINT []

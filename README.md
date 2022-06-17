@@ -2,4 +2,4 @@
 
 # Quarkus Builder Image
 
-A builder tool image contains Mandrel 22.1, Maven 3.8.6 and NodeJS 16
+A builder tool image contains Temurin 11 Alpine + Maven 3.8.6 + NodeJS 16 with pnpm
