@@ -5,15 +5,15 @@ FROM ${MAVEN_IMAGE} AS maven
 
 FROM ${MANDREL_IMAGE}
 
-ENV MAVEN_HOME=/opt/maven \
-    PATH="${PATH}:${MAVEN_HOME}/bin"
-    
 USER root
+
+ENV MAVEN_HOME=/opt/maven
+ENV PATH="${PATH}:${MAVEN_HOME}/bin"
 
 COPY --from=maven /usr/share/maven ${MAVEN_HOME}
 
-# RUN ln -s /opt/maven/bin/mvn /usr/bin/mvn
+RUN microdnf --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y bash curl && microdnf clean all && [ ! -d /var/cache/yum ] || rm -rf /var/cache/yum
 
-USER 1001
+WORKDIR /drone/src
 
 ENTRYPOINT []
