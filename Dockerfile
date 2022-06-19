@@ -12,7 +12,8 @@ ENV PATH="${PATH}:${MAVEN_HOME}/bin"
 
 COPY --from=maven /usr/share/maven ${MAVEN_HOME}
 
-RUN microdnf module enable -y nodejs:16 && microdnf --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y bash curl nodejs npm yarnpkg \
+RUN microdnf module enable -y nodejs:16 && microdnf --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y bash curl wget nodejs npm yarnpkg \
+    && curl -fsSL https://get.pnpm.io/install.sh | sh - \
     && microdnf clean all && [ ! -d /var/cache/yum ] || rm -rf /var/cache/yum
 
 WORKDIR /drone/src
