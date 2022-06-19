@@ -22,7 +22,7 @@ USER root
 SHELL ["/bin/bash", "-c"]
 
 ARG DEBIAN_FRONTEND=noninteractive
-ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8 
+ARG LC_ALL=C
 
 ARG BASE_LAYER_CACHE_KEY
 
@@ -159,8 +159,8 @@ IMAGE_BUILD: $BUILD_DATE" >/opt/build_info
 
 EOF
 
-COPY image/settings.xml /root/.m2/settings.xml
-COPY image/toolchains.xml /root/.m2/toolchains.xml
+COPY settings.xml /root/.m2/settings.xml
+COPY toolchains.xml /root/.m2/toolchains.xml
 
 ENV \
   PATH="/opt/mandrel/bin:/opt/maven/bin:/opt/upx:${PATH}" \
