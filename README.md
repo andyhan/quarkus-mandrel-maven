@@ -1,5 +1,5 @@
-[![Publish Docker image](https://github.com/andyhan/quarkus-builder/actions/workflows/docker-image.yml/badge.svg)](https://github.com/andyhan/quarkus-builder/actions/workflows/docker-image.yml)
+[![Publish Docker image](https://github.com/andyhan/docker-mandrel-maven/actions/workflows/docker-image.yml/badge.svg)](https://github.com/andyhan/docker-mandrel-maven/actions/workflows/docker-image.yml)
 
-# Quarkus Builder Image
+# Quarkus Native Builder Image
 
-A builder tool image contains Temurin 11 Alpine + Maven 3.8.6 + NodeJS 16 with pnpm
+A builder image includes mandrel:22.1-java11 + maven:3.8.6
