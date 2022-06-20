@@ -34,8 +34,8 @@ jobs:
     - name: Login to Docker Hub
       uses: docker/login-action@v2
       with:
-        username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
         
     - name: Build and push Docker image
       id: docker_build
@@ -45,8 +45,11 @@ jobs:
         file: ./Dockerfile
         push: true
         platforms: linux/amd64
-        tags: ${{ github.repository }}:latest, ${{ github.repository }}:11
-
+        tags: ${{ github.repository }}:latest, ${{ github.repository }}:22.1-java11
+        build-args: |
+          MANDREL_IMAGE=quay.io/quarkus/ubi-quarkus-mandrel:22.1-java11
+          MAVEN_BINARY_URL=https://dlcdn.apache.org/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz
+          
     - name: Image digest
       run: |
         echo "Image digest:  ${{ steps.docker_build.outputs.digest }}"          
