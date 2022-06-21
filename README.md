@@ -2,4 +2,4 @@
 
 # Quarkus Native Builder Image
 
-A builder image includes mandrel:22.1-java11 + maven:3.8.6
+A builder image includes mandrel:22.1-java11 + maven:3.8.6 for Quarkus Native build
