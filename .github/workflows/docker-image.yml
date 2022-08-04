@@ -9,7 +9,7 @@ on:
 env:
   REGISTRY: docker.io
   IMAGE_NAME: ${{ github.repository }}
-  MANDREL_IMAGE: quay.io/quarkus/ubi-quarkus-mandrel:22.1-java11
+  MANDREL_IMAGE: quay.io/quarkus/ubi-quarkus-mandrel:22.2-java11
   MAVEN_BINARY_URL: https://dlcdn.apache.org/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz
   
 jobs:
@@ -58,7 +58,7 @@ jobs:
           type=semver,pattern={{major}}.{{minor}}
           type=semver,pattern={{major}}
           type=raw,latest
-          type=raw,22.1-java11
+          type=raw,22.2-java11
           
     - name: Build and push Docker image
       id: docker_build
