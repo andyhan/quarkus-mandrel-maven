@@ -9,15 +9,25 @@ on:
 env:
   REGISTRY: docker.io
   IMAGE_NAME: ${{ github.repository }}
-  MANDREL_IMAGE: quay.io/quarkus/ubi-quarkus-mandrel:22.2-java11
   MAVEN_BINARY_URL: https://dlcdn.apache.org/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz
   
 jobs:
 
   push_to_registry:
     name: Push Docker image to Docker Hub
+    
+    strategy:
+      matrix:
+        quarkus-mandrel_image: [quay.io/quarkus/ubi-quarkus-mandrel]
+        quarkus-mandrel_version: [22.1, 22.2]
+        quarkus-mandrel_java_version: [11, 17]
+        
     runs-on: ubuntu-latest
-
+    
+    env:
+      MANDREL_IMAGE_TAGS: ${{ matrix.quarkus-mandrel_version }}-java${{ matrix.quarkus-mandrel_java_version }}
+      MANDREL_FULL_IMAGE: ${{ matrix.quarkus-mandrel_image }}:${{ env.MANDREL_IMAGE_TAGS }}
+    
     steps:
     - name: Check Out Repo 
       uses: actions/checkout@v3
@@ -42,23 +52,6 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
-
-    - name: Extract Docker metadata
-      id: meta
-      uses: docker/metadata-action@v4
-      with:
-        # list of Docker images to use as base name for tags
-        images: |
-          ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-        # generate Docker tags based on the following events/attributes
-        tags: |
-          type=schedule
-          type=ref,event=branch
-          type=semver,pattern={{version}}
-          type=semver,pattern={{major}}.{{minor}}
-          type=semver,pattern={{major}}
-          type=raw,latest
-          type=raw,22.2-java11
           
     - name: Build and push Docker image
       id: docker_build
@@ -68,10 +61,9 @@ jobs:
         file: ./Dockerfile
         push: true
         platforms: linux/amd64
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
+        tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MANDREL_IMAGE_TAGS }}
         build-args: |
-          MANDREL_IMAGE=${{ env.MANDREL_IMAGE }}
+          MANDREL_IMAGE=${{ env.MANDREL_FULL_IMAGE }}
           MAVEN_BINARY_URL=${{ env.MAVEN_BINARY_URL }}
           
     - name: Image digest
