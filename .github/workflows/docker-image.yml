@@ -25,8 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     
     env:
-      MANDREL_IMAGE_TAGS: ${{ matrix.quarkus-mandrel_version }}-java${{ matrix.quarkus-mandrel_java_version }}
-      MANDREL_FULL_IMAGE: ${{ matrix.quarkus-mandrel_image }}:${{ env.MANDREL_IMAGE_TAGS }}
+      MANDREL_FULL_IMAGE: ${{ matrix.quarkus-mandrel_image }}:${{ matrix.quarkus-mandrel_version }}-java${{ matrix.quarkus-mandrel_java_version }}
     
     steps:
     - name: Check Out Repo 
@@ -61,7 +60,7 @@ jobs:
         file: ./Dockerfile
         push: true
         platforms: linux/amd64
-        tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MANDREL_IMAGE_TAGS }}
+        tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.quarkus-mandrel_version }}-java${{ matrix.quarkus-mandrel_java_version }}
         build-args: |
           MANDREL_IMAGE=${{ env.MANDREL_FULL_IMAGE }}
           MAVEN_BINARY_URL=${{ env.MAVEN_BINARY_URL }}
