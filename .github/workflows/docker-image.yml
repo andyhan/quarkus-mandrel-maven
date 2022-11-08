@@ -7,22 +7,23 @@ on:
     - release/*    
 
 env:
-  REGISTRY: docker.io
-  IMAGE_NAME: ${{ github.repository }}
   MAVEN_BINARY_URL: https://dlcdn.apache.org/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz
   
 jobs:
 
   push_to_registry:
-    name: Push Docker image to Docker Hub
+    name: Push Docker image to Docker Hub & GHCR
+    runs-on: ubuntu-latest
+    
+    permissions:
+      packages: write
+      contents: read
     
     strategy:
       matrix:
         quarkus-mandrel_image: [quay.io/quarkus/ubi-quarkus-mandrel]
         quarkus-mandrel_version: [22.3]
         quarkus-mandrel_java_version: [17]
-        
-    runs-on: ubuntu-latest
     
     env:
       MANDREL_FULL_IMAGE: ${{ matrix.quarkus-mandrel_image }}:${{ matrix.quarkus-mandrel_version }}-java${{ matrix.quarkus-mandrel_java_version }}
@@ -49,8 +50,26 @@ jobs:
     - name: Login to Docker Hub
       uses: docker/login-action@v2
       with:
+        registry: docker.io
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+
+    - name: Log in to the Container registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GH_TOKEN }}
+        
+    - name: Extract metadata (tags, labels) for Docker
+      id: meta
+      uses: docker/metadata-action@v4
+      with:
+        images: |
+          docker.io/${{ github.repository }}
+          ghcr.io/${{ github.repository }}
+        tags: |
+          type=raw,value=${{ matrix.quarkus-mandrel_version }}-java${{ matrix.quarkus-mandrel_java_version }}
           
     - name: Build and push Docker image
       id: docker_build
@@ -60,7 +79,8 @@ jobs:
         file: ./Dockerfile
         push: true
         platforms: linux/amd64
-        tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.quarkus-mandrel_version }}-java${{ matrix.quarkus-mandrel_java_version }}
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
         build-args: |
           MANDREL_IMAGE=${{ env.MANDREL_FULL_IMAGE }}
           MAVEN_BINARY_URL=${{ env.MAVEN_BINARY_URL }}
