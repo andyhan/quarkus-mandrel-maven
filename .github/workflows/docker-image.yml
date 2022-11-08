@@ -19,8 +19,8 @@ jobs:
     strategy:
       matrix:
         quarkus-mandrel_image: [quay.io/quarkus/ubi-quarkus-mandrel]
-        quarkus-mandrel_version: [22.1, 22.2]
-        quarkus-mandrel_java_version: [11, 17]
+        quarkus-mandrel_version: [22.3]
+        quarkus-mandrel_java_version: [17]
         
     runs-on: ubuntu-latest
     
