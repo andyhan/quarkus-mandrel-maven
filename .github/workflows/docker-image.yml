@@ -7,7 +7,7 @@ on:
     - release/*    
 
 env:
-  MAVEN_BINARY_URL: https://dlcdn.apache.org/maven/maven-3/3.9.1/binaries/apache-maven-3.9.1-bin.tar.gz
+  MAVEN_BINARY_URL: https://dlcdn.apache.org/maven/maven-3/3.9.2/binaries/apache-maven-3.9.2-bin.tar.gz
   
 jobs:
 
@@ -21,7 +21,7 @@ jobs:
     
     strategy:
       matrix:
-        quarkus-mandrel_image: [quay.io/quarkus/ubi-quarkus-mandrel]
+        quarkus-mandrel_image: [quay.io/quarkus/ubi-quarkus-mandrel-builder-image]
         quarkus-mandrel_version: [22.3]
         quarkus-mandrel_java_version: [17]
     
@@ -53,13 +53,20 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
 
-    - name: Log in to the Github Container registry
+    - name: Login to the Github Container registry
       uses: docker/login-action@v2
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-        
+
+    - name: Login to My Gitea Container registry
+      uses: docker/login-action@v2
+      with:
+        registry: ${{ secrets.GITEA_SERVER }}
+        username: ${{ secrets.GITEA_USERNAME }}
+        password: ${{ secrets.GITEA_ACCESS_TOKEN }}
+         
     - name: Extract metadata (tags, labels) for Docker
       id: meta
       uses: docker/metadata-action@v4
@@ -67,6 +74,7 @@ jobs:
         images: |
           docker.io/${{ github.repository }}
           ghcr.io/${{ github.repository }}
+          ${{ secrets.GITEA_SERVER }}/${{ secrets.GITEA_REPOSITORY }}
         tags: |
           type=raw,value=${{ matrix.quarkus-mandrel_version }}-java${{ matrix.quarkus-mandrel_java_version }}
           

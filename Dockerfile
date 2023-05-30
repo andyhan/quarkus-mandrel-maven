@@ -1,8 +1,8 @@
-ARG MANDREL_IMAGE=quay.io/quarkus/ubi-quarkus-mandrel:22.2-java11
+ARG MANDREL_IMAGE=quay.io/quarkus/ubi-quarkus-mandrel-builder-image:22.3-java17
 
 FROM ${MANDREL_IMAGE}
 
-ARG MAVEN_BINARY_URL=https://dlcdn.apache.org/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz
+ARG MAVEN_BINARY_URL=https://dlcdn.apache.org/maven/maven-3/3.9.2/binaries/apache-maven-3.9.2-bin.tar.gz
 
 USER root
 
