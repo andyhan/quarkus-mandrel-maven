@@ -7,7 +7,7 @@ on:
     - release/*    
 
 env:
-  MAVEN_BINARY_URL: https://dlcdn.apache.org/maven/maven-3/3.9.4/binaries/apache-maven-3.9.4-bin.tar.gz
+  MAVEN_BINARY_URL: https://dlcdn.apache.org/maven/maven-3/3.9.5/binaries/apache-maven-3.9.5-bin.tar.gz
   
 jobs:
 
@@ -22,8 +22,8 @@ jobs:
     strategy:
       matrix:
         quarkus-mandrel_image: [quay.io/quarkus/ubi-quarkus-mandrel-builder-image]
-        quarkus-mandrel_version: [22.3]
-        quarkus-mandrel_java_version: [17]
+        quarkus-mandrel_version: [23.1]
+        quarkus-mandrel_java_version: [21]
     
     env:
       MANDREL_FULL_IMAGE: ${{ matrix.quarkus-mandrel_image }}:${{ matrix.quarkus-mandrel_version }}-java${{ matrix.quarkus-mandrel_java_version }}
