@@ -22,7 +22,7 @@ jobs:
     strategy:
       matrix:
         quarkus-mandrel_image: [quay.io/quarkus/ubi-quarkus-mandrel-builder-image]
-        quarkus-mandrel_version: [jdk-21, jdk-17]
+        quarkus-mandrel_version: [jdk-21, jdk-17, 22.1-java11]
     
     env:
       MANDREL_FULL_IMAGE: ${{ matrix.quarkus-mandrel_image }}:${{ matrix.quarkus-mandrel_version }}
@@ -75,7 +75,7 @@ jobs:
           ghcr.io/${{ github.repository }}
           ${{ secrets.GITEA_SERVER }}/${{ secrets.GITEA_REPOSITORY }}
         tags: |
-          type=raw,value=${{ matrix.quarkus-mandrel_version }}-java${{ matrix.quarkus-mandrel_java_version }}
+          type=raw,value=${{ matrix.quarkus-mandrel_version }}
           
     - name: Build and push Docker image
       id: docker_build
