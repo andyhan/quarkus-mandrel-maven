@@ -22,7 +22,7 @@ jobs:
     strategy:
       matrix:
         quarkus-mandrel_image: [quay.io/quarkus/ubi-quarkus-mandrel-builder-image]
-        quarkus-mandrel_version: [jdk-21, jdk-17, 22.2-java11]
+        quarkus-mandrel_version: [22.2-java11, jdk-17, jdk-21]
     
     env:
       MANDREL_FULL_IMAGE: ${{ matrix.quarkus-mandrel_image }}:${{ matrix.quarkus-mandrel_version }}
