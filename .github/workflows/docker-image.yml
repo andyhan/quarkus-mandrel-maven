@@ -2,7 +2,7 @@ name: Publish Docker image
 
 on:
   schedule:
-    - cron: '0 18 16-22 * 6'
+    - cron: '0 20 */16,*/17,*/18,*/19,*/20,*/21,*/22 * 6'
   workflow_dispatch:
   # push:
   #   branches:
