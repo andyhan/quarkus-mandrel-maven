@@ -2,7 +2,7 @@ ARG MANDREL_IMAGE=quay.io/quarkus/ubi-quarkus-mandrel-builder-image:jdk-21
 
 FROM ${MANDREL_IMAGE}
 
-ARG MAVEN_VERSION=3.9.9
+ARG MAVEN_VERSION=3.9.11
 ARG MVND_VERSION=1.0.2
 
 ENV MAVEN_BINARY_URL=https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
