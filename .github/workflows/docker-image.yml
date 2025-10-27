@@ -26,7 +26,7 @@ jobs:
     strategy:
       matrix:
         quarkus-mandrel_image: [quay.io/quarkus/ubi-quarkus-mandrel-builder-image]
-        quarkus-mandrel_version: [jdk-17, jdk-21]
+        quarkus-mandrel_version: [jdk-17, jdk-21, jdk-25]
     
     env:
       MANDREL_FULL_IMAGE: ${{ matrix.quarkus-mandrel_image }}:${{ matrix.quarkus-mandrel_version }}
@@ -83,7 +83,7 @@ jobs:
           
     - name: Build and push Docker image
       id: docker_build
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         context: .
         file: ./Dockerfile
