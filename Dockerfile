@@ -19,8 +19,7 @@ ENV MAVEN_OPTS="-Xmx1024m -Djava.awt.headless=true -Djava.net.preferIPv4Stack=tr
 
 USER root
 
-RUN microdnf --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y bash curl \
-    && mkdir -p /opt/maven && curl -fL $MAVEN_BINARY_URL | tar zxv -C /opt/maven --strip-components=1 \
+RUN mkdir -p /opt/maven && curl -fL $MAVEN_BINARY_URL | tar zxv -C /opt/maven --strip-components=1 \
     && mkdir -p /opt/mvnd && curl -fL $MVND_BINARY_URL | tar zxv -C /opt/mvnd --strip-components=1 \
     && mkdir -p /opt/node && curl -fL $NODE_BINARY_URL | tar -xJv -C /opt/node --strip-components=1 \
     && ln -s ${MAVEN_HOME}/bin/mvn /usr/bin/mvn \
