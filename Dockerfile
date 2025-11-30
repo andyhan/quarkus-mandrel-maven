@@ -1,4 +1,4 @@
-ARG MANDREL_IMAGE=quay.io/quarkus/ubi-quarkus-mandrel-builder-image:jdk-21
+ARG MANDREL_IMAGE=quay.io/quarkus/ubi9-quarkus-mandrel-builder-image:jdk-21
 
 FROM ${MANDREL_IMAGE}
 
