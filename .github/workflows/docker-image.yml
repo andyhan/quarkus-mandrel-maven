@@ -10,9 +10,9 @@ on:
   #   - release/*    
 
 env:
-  MAVEN_VERSION: 3.9.11
+  MAVEN_VERSION: 3.9.12
   MVND_VERSION: 1.0.3
-  NODE_VERSION: 24.11.1
+  NODE_VERSION: 24.12.0
   
 jobs:
 
