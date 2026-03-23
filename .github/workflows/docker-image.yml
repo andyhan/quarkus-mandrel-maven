@@ -11,7 +11,7 @@ on:
 
 env:
   MAVEN_VERSION: 3.9.14
-  MVND_VERSION: 1.0.4
+  MVND_VERSION: 1.0.5
   NODE_VERSION: 24.14.0
   
 jobs:
