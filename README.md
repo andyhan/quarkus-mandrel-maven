@@ -2,6 +2,6 @@
 
 # Quarkus Native Builder Image (Mandrel)
 
-A docker builder image which contains quay.io/quarkus/ubi9-quarkus-mandrel-builder-image:[jdk-17, jdk-21, jdk-25] + maven:3.9.12 + node:24.12.0
+A docker builder image which contains quay.io/quarkus/ubi9-quarkus-mandrel-builder-image:[jdk-17, jdk-21, jdk-25] + maven:3.9.16 + maven daemon:1.0.6 + nodejs:24.18.0
 
 [Docker Image | Docker Hub](https://hub.docker.com/r/andyhan/quarkus-mandrel-maven)

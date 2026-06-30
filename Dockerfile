@@ -2,9 +2,9 @@ ARG MANDREL_IMAGE=quay.io/quarkus/ubi9-quarkus-mandrel-builder-image:jdk-21
 
 FROM ${MANDREL_IMAGE}
 
-ARG MAVEN_VERSION=3.9.14
-ARG MVND_VERSION=1.0.5
-ARG NODE_VERSION=24.14.0
+ARG MAVEN_VERSION=3.9.16
+ARG MVND_VERSION=1.0.6
+ARG NODE_VERSION=24.18.0
 
 ENV MAVEN_BINARY_URL=https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
 ENV MVND_BINARY_URL=https://downloads.apache.org/maven/mvnd/${MVND_VERSION}/maven-mvnd-${MVND_VERSION}-linux-amd64.tar.gz
@@ -26,6 +26,10 @@ RUN mkdir -p /opt/maven && curl -fL $MAVEN_BINARY_URL | tar zxv -C /opt/maven --
     && ln -s ${MVND_HOME}/bin/mvnd /usr/bin/mvnd \
     && ln -s ${NODE_HOME}/bin/node /usr/bin/node \
     && ln -s ${NODE_HOME}/bin/npm /usr/bin/npm \
-    && ln -s ${NODE_HOME}/bin/corepack /usr/bin/corepack \    
-    && node -v && corepack enable pnpm && pnpm -v \
+    && ln -s ${NODE_HOME}/bin/corepack /usr/bin/corepack \
+    && node -v \
+    && npm install --global corepack@latest \
+    && corepack enable pnpm \
+    && corepack prepare pnpm@latest-11 --activate \
+    && pnpm -v \
     && microdnf clean all && [ ! -d /var/cache/yum ] || rm -rf /var/cache/yum
