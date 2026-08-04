@@ -1,10 +1,10 @@
-ARG MANDREL_IMAGE=quay.io/quarkus/ubi9-quarkus-mandrel-builder-image:jdk-21
+ARG MANDREL_IMAGE=quay.io/quarkus/ubi10-quarkus-mandrel-builder-image:jdk-25
 
 FROM ${MANDREL_IMAGE}
 
 ARG MAVEN_VERSION=3.9.16
 ARG MVND_VERSION=1.0.6
-ARG NODE_VERSION=24.18.0
+ARG NODE_VERSION=24.19.0
 
 ENV MAVEN_BINARY_URL=https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
 ENV MVND_BINARY_URL=https://downloads.apache.org/maven/mvnd/${MVND_VERSION}/maven-mvnd-${MVND_VERSION}-linux-amd64.tar.gz
@@ -31,5 +31,6 @@ RUN mkdir -p /opt/maven && curl -fL $MAVEN_BINARY_URL | tar zxv -C /opt/maven --
     && npm install --global corepack@latest \
     && corepack enable pnpm \
     && corepack prepare pnpm@latest-11 --activate \
+    && pnpm config set --location=global registry "https://registry.npmmirror.com/" \
     && pnpm -v \
     && microdnf clean all && [ ! -d /var/cache/yum ] || rm -rf /var/cache/yum

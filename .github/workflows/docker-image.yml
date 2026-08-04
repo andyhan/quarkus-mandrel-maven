@@ -12,7 +12,7 @@ on:
 env:
   MAVEN_VERSION: 3.9.16
   MVND_VERSION: 1.0.6
-  NODE_VERSION: 24.18.0
+  NODE_VERSION: 24.19.0
   
 jobs:
 
@@ -26,15 +26,15 @@ jobs:
     
     strategy:
       matrix:
-        quarkus-mandrel_image: [quay.io/quarkus/ubi9-quarkus-mandrel-builder-image]
-        quarkus-mandrel_version: [jdk-17, jdk-21, jdk-25]
+        quarkus-mandrel_image: [quay.io/quarkus/ubi10-quarkus-mandrel-builder-image]
+        quarkus-mandrel_version: [jdk-21, jdk-25]
     
     env:
       MANDREL_FULL_IMAGE: ${{ matrix.quarkus-mandrel_image }}:${{ matrix.quarkus-mandrel_version }}
     
     steps:
     - name: Check Out Repo 
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v4
